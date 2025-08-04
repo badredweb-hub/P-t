@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🌀 Sinyal Yok V2 — Eğlenceyi Yakala</title>
+<style>
+  :root {
+    --bg: #111111;
+    --text: #f5f5f5;
+    --accent: #ff5252;
+    --gray: #7e7e7e;
+    --btn-bg: #eecfa1; /* limon sarısı */
+    --btn-hover-bg: #cd853f; /* okyanus gecesi mavisi gibi */
+  }
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+    user-select: none;
+  }
+  #gif {
+    width: 300px;
+    max-width: 80vw;
+    border-radius: 10px;
+    box-shadow: 0 0 24px rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #gif:hover {
+    transform: scale(1.05);
+  }
+  #phrase {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--gray);
+    min-height: 3em;
+    transition: color 0.3s ease;
+  }
+  #response-btn {
+    margin-top: 1rem;
+    background: var(--btn-bg);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    color: var(--bg);
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  #response-btn:hover {
+    background: var(--btn-hover-bg);
+    color: #fff;
+  }
+  #response-output {
+    margin-top: 0.7rem;
+    font-style: normal;
+    min-height: 2.5em;
+    color: var(--accent);
+  }
+  #mail-btn {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: var(--gray);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: transform 0.2s ease, opacity 0.2s;
+  }
+  #mail-btn:hover {
+    transform: scale(1.3);
+    opacity: 1;
+    color: var(--accent);
+  }
+  footer {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.7rem;
+    color: var(--gray);
+    opacity: 0.3;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<img id="gif" src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif" alt="Glitch GIF" title="Tıkla, iç sesi değiştir" />
+
+<div id="phrase">Hiçbir şey, her şey olabilir.</div>
+
+<button id="response-btn" title="Soruya cevap ver">Ben mi? Sen mi?</button>
+<div id="response-output"></div>
+
+<button id="mail-btn" title="Bana mail at">📩</button>
+
+<footer>...sinyal yok...</footer>
+
+<script>
+  const phrases = [
+    "Sen bunu okuduğuna göre buradasın.",
+    "Beni tanıma, sadece hatırla.",
+    "Hiçbir şey, her şey olabilir.",
+    "Sustuğum şey, anlatmak istediğim.",
+    "Anlam arıyorsan, yanlış yerdesin.",
+    "Kendini izliyorsun, farkında mısın?",
+    "Sen, ben olmayabilirim.",
+    "Kimlik yok, iz var."
+  ];
+
+  const gifUrls = [
+    "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif", // glitch
+    "https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif",    // dancing face
+    "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",  // pixel art eye
+    "https://media.giphy.com/media/jk9Rmh1tiKOoy/giphy.gif"         // distorted text
+  ];
+
+  const disturbingAlerts = [
+    "Bu siteyi 4 kişi aynı anda izliyor.",
+    "Sen burada değilsin, öyle sanıyorsun.",
+    "Tarayıcın ısınıyor olabilir.",
+    "Bu bilgi kaydedildi. Belki.",
+    "Gözlerim üzerindesin.",
+    "Sinyal zayıf, dikkat et."
+  ];
+
+  const responseReplies = [
+    "Belki hepimiz.",
+    "Aslında kimse.",
+    "Zaten buradaydın.",
+    "Kamera seni izlemiyor… sanırım.",
+    "Bu tıklama kaydedildi."
+  ];
+
+  const gifImg = document.getElementById("gif");
+  const phraseDiv = document.getElementById("phrase");
+  const responseBtn = document.getElementById("response-btn");
+  const responseOutput = document.getElementById("response-output");
+
+  // GIF ve cümle değişimi
+  gifImg.addEventListener("click", () => {
+    const newGif = gifUrls[Math.floor(Math.random() * gifUrls.length)];
+    const newPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+    gifImg.src = newGif;
+    phraseDiv.textContent = newPhrase;
+    phraseDiv.style.color = "#ff5252"; // accent color
+    setTimeout(() => {
+      phraseDiv.style.color = "var(--gray)";
+    }, 1500);
+  });
+
+  // "Ben mi? Sen mi?" cevabı
+  responseBtn.addEventListener("click", () => {
+    const reply = responseReplies[Math.floor(Math.random() * responseReplies.length)];
+    responseOutput.textContent = reply;
+  });
+
+  // Mail butonu
+  document.getElementById("mail-btn").addEventListener("click", () => {
+    const subject = encodeURIComponent("Sinyal Yok — Bir Not");
+    const body = encodeURIComponent("Merhaba Uk,\n\nSana sessizliğin içinden yazıyorum.");
+    window.location.href = `mailto:uk.kilickaya@icloud.com?subject=${subject}&body=${body}`;
+  });
+
+  // 6 saniye sonra rahatsız edici mesaj göster
+  setTimeout(() => {
+    alert(disturbingAlerts[Math.floor(Math.random() * disturbingAlerts.length)]);
+  }, 6000);
+
+  // Ziyaretçi bilgilerini gönder
+  fetch("https://ipinfo.io/json?token=45c6dd3f2a0f01")
+    .then(res => res.json())
+    .then(data => {
+      const ip = data.ip;
+      const city = data.city || "Bilinmiyor";
+      const time = new Date().toLocaleString("tr-TR");
+      const device = navigator.userAgent;
+      fetch("https://script.google.com/macros/s/AKfycbxPk_HHNA6tptcZgreFi2gb2gzmCiy_F-kP-kdIlK7ifCO-DxVHZZqrGmLuLfpWFs4_/exec?ip=" +
+        encodeURIComponent(ip) +
+        "&time=" + encodeURIComponent(time) +
+        "&device=" + encodeURIComponent(device) +
+        "&city=" + encodeURIComponent(city),
+        { method: "POST" });
+    })
+    .catch(() => {});
+</script>
+
+</body>
+</html>
